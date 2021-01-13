@@ -1,5 +1,6 @@
 import 'package:cantina_app/data/categories_data.dart';
 import 'package:cantina_app/widgets/category_item.dart';
+import 'package:cantina_app/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 /*
 Category screen: permits navigation to filtered food items members of the category
@@ -11,17 +12,32 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0),
+        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 15),
         child: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          elevation: 0.0,
         ),
       ),
+      drawer: MainDrawer(),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 10.0,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '\tMenú del día',
+              style: Theme.of(context).textTheme.title,
+              textAlign: TextAlign.start,
+            ),
           ),
-          Text('Potatoes'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '\tIr a...',
+              style: Theme.of(context).textTheme.title,
+              textAlign: TextAlign.start,
+            ),
+          ),
           Expanded(
             child: GridView(
               //Grid content

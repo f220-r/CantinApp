@@ -1,6 +1,9 @@
 import 'package:cantina_app/screens/categories_meals_screen.dart';
 import 'package:cantina_app/screens/categories_screen.dart';
 import 'package:cantina_app/screens/meal_item_screen.dart';
+import 'package:cantina_app/screens/notifications_screen.dart';
+import 'package:cantina_app/screens/orders_screen.dart';
+import 'package:cantina_app/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(CantinApp());
@@ -16,32 +19,43 @@ class CantinApp extends StatelessWidget {
         primaryColor: Colors.amber,
         secondaryHeaderColor: Colors.indigo,
         fontFamily: 'Roboto',
-        appBarTheme: AppBarTheme(color: Theme.of(context).scaffoldBackgroundColor),
+        appBarTheme:
+            AppBarTheme(color: Theme.of(context).scaffoldBackgroundColor),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.amber,
+        ),
         backgroundColor: Colors.amber.shade200,
         textTheme: TextTheme(
-            display1: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold,fontFamily: 'Roboto' , color: Colors.black87),
-          display2: TextStyle(fontSize: 32.0, fontFamily: 'Roboto' , color: Colors.black87),
+          display1: TextStyle(
+              fontSize: 32.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Roboto',
+              color: Colors.black87),
+          display2: TextStyle(
+              fontSize: 32.0, fontFamily: 'Roboto', color: Colors.black87),
+          title: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Roboto',
+              color: Colors.black87),
+          display3: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Roboto',
+              color: Colors.black87),
         ),
       ),
-//      home: MyHomePage(),
       initialRoute: '/',
       routes: {
-        '/' : (ctx) => CategoriesScreen(),
-        CategoryMealsScreen.RouteName : (ctx) => CategoryMealsScreen() ,
-        MealItemScreen.RouteName : (ctx) => MealItemScreen(),
+        '/': (ctx) => CategoriesScreen(),
+        CategoryMealsScreen.RouteName: (ctx) => CategoryMealsScreen(),
+        MealItemScreen.RouteName: (ctx) => MealItemScreen(),
+        NotificationsScreen.RouteName: (ctx) => NotificationsScreen(),
+        OrdersScreen.RouteName: (ctx) => OrdersScreen(),
+        ProfileScreen.RouteName: (ctx) => ProfileScreen(),
       },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return CategoriesScreen();
-  }
-}
