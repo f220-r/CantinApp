@@ -15,8 +15,9 @@ class _MealItemScreenState extends State<MealItemScreen> {
         alignment: Alignment.topLeft,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 4.0),
-          child: FlatButton(child: Icon(Icons.cancel,color: Colors.redAccent, size: 34.0),
-            onPressed: (){
+          child: FlatButton(
+            child: Icon(Icons.cancel, color: Colors.red, size: 34.0),
+            onPressed: () {
               Navigator.of(ctx).pop();
             },
           ),
@@ -47,10 +48,16 @@ class _MealItemScreenState extends State<MealItemScreen> {
             Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
-                ImageNull(selected_meal.image_path, context),
-                CloseButton(context),
-                ]
-            ),
+            ImageNull(selected_meal.image_path, context),
+            Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 26.5, horizontal: 35.5),
+                  child: Icon(Icons.close, color: Colors.black, size: 25.0),
+                )),
+            CloseButton(context),
+          ]),
             SizedBox(height: 20.0,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),

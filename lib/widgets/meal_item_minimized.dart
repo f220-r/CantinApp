@@ -34,7 +34,7 @@ class MealMinItem extends StatelessWidget {
     else
       return ClipRRect(
         borderRadius: BorderRadius.circular(5.0),
-        child: Image.network(x.image_path, fit: BoxFit.cover),
+        child: Image.network(x.image_path, fit: BoxFit.fill),
       );
   }
   void SelectMeal(BuildContext ctx){
