@@ -1,20 +1,25 @@
-import 'package:cantina_app/data/meals_data.dart';
+import 'package:cantina_app/models/meal.dart';
 import 'package:cantina_app/widgets/meal_item_minimized.dart';
 import 'package:flutter/material.dart';
 
 class CategoryMealsScreen extends StatelessWidget {
   static const RouteName = '/category-meals';
-  @override
+  final List<Meal> avMeals;
 
+  CategoryMealsScreen(this.avMeals);
+
+  @override
   Widget build(BuildContext context) {
-    final RouteArgs = ModalRoute.of(context).settings.arguments as Map<String, String>;
+    final RouteArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
     final category_title = RouteArgs['title'];
     final category_id = RouteArgs['id'];
-    final category_meals = MEALS.where((meal){
-      if(category_id == '10')
+    final category_meals = avMeals.where((meal) {
+      if (category_id == '10')
         return true;
       else
-        return (meal.category_id == category_id);}).toList();
+        return (meal.category_id == category_id);
+    }).toList();
 
     Widget NonEmptyCategory(BuildContext ctx){
       if(category_meals.length != 0)

@@ -24,7 +24,7 @@ class MainDrawer extends StatelessWidget {
           ),
           FlatButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/');
+              Navigator.of(context).pushReplacementNamed('/');
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -42,7 +42,8 @@ class MainDrawer extends StatelessWidget {
           ),
           FlatButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(OrdersScreen.RouteName);
+              Navigator.of(context)
+                  .pushReplacementNamed(OrdersScreen.RouteName);
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -61,7 +62,8 @@ class MainDrawer extends StatelessWidget {
           ),
           FlatButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(ProfileScreen.RouteName);
+              Navigator.of(context)
+                  .pushReplacementNamed(ProfileScreen.RouteName);
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -79,7 +81,8 @@ class MainDrawer extends StatelessWidget {
           ),
           FlatButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(NotificationsScreen.RouteName);
+              Navigator.of(context)
+                  .pushReplacementNamed(NotificationsScreen.RouteName);
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),

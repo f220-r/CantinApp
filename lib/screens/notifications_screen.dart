@@ -1,3 +1,4 @@
+import 'package:cantina_app/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -5,8 +6,12 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('data'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("data"),
+      ),
+      drawer: MainDrawer(),
+      body: Container(),
     );
   }
 }

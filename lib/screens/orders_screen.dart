@@ -1,3 +1,4 @@
+import 'package:cantina_app/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -10,8 +11,12 @@ class OrdersScreen extends StatefulWidget {
 class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('data'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("data"),
+      ),
+      drawer: MainDrawer(),
+      body: Container(),
     );
   }
 }
