@@ -1,6 +1,5 @@
 import 'package:cantina_app/data/meals_data.dart';
 import 'package:cantina_app/widgets/multi_choice_chip.dart';
-import 'package:cantina_app/widgets/select_quantities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -151,13 +150,12 @@ class _MealItemScreenState extends State<MealItemScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Unidades:\t\t\t\t",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .title,
+                    "Unidades:",
+                    style: Theme.of(context).textTheme.title,
                   ),
-                  //Expanded(child: SizedBox(),),
+                  Expanded(
+                    child: SizedBox(),
+                  ),
                   IconButton(
                     icon: Icon(
                       Icons.add_circle_outline,
