@@ -1,5 +1,6 @@
 import 'package:cantina_app/data/meals_data.dart';
 import 'package:cantina_app/widgets/multi_choice_chip.dart';
+import 'package:cantina_app/widgets/select_quantities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,8 @@ class MealItemScreen extends StatefulWidget {
 }
 
 class _MealItemScreenState extends State<MealItemScreen> {
+  int amount = 1;
+
   @override
   Widget CloseButton(BuildContext ctx) {
     return Align(
@@ -36,7 +39,7 @@ class _MealItemScreenState extends State<MealItemScreen> {
         Align(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 26.5, horizontal: 35.5),
+              const EdgeInsets.symmetric(vertical: 26.5, horizontal: 35.5),
               child: Icon(Icons.close, color: Colors.black, size: 25.0),
             ),
             alignment: Alignment.topLeft),
@@ -63,9 +66,10 @@ class _MealItemScreenState extends State<MealItemScreen> {
     final selected_meal = MEALS.firstWhere((meal) {
       return (meal.id == meal_item_id);
     });
+
     //TODO pasar estos ingredientes selecionados a pedido
     List<String> selected_ingredients;
-
+    double final_cost = amount * selected_meal.amount;
     return Scaffold(
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
@@ -103,21 +107,31 @@ class _MealItemScreenState extends State<MealItemScreen> {
               child: Row(
                 children: <Widget>[
                   Expanded(child: SizedBox()),
-                  Text('\$${selected_meal.amount}',
-                      style: Theme.of(context).textTheme.display2),
+                  Text('\$' + final_cost.toString(),
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .display2),
                 ],
               ),
             ),
             //------------------------------------------------------------------Meal Ingredients
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:
+              const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text("Ingredientes:",
-                      style: Theme.of(context).textTheme.display3),
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .display3),
                   Text("(pulsa para remover ingredientes)",
-                      style: Theme.of(context).textTheme.subtitle),
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .subtitle),
                 ],
               ),
             ),
@@ -127,16 +141,58 @@ class _MealItemScreenState extends State<MealItemScreen> {
                 onSelectionChanged: (selectedList) {
                   setState(() {
                     selected_ingredients = selectedList;
-                    print(selected_ingredients);
                   });
                 },
               ),
+            //------------------------------------------------------------------Order Quantity
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Unidades:\t\t\t\t",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .title,
+                  ),
+                  //Expanded(child: SizedBox(),),
+                  IconButton(
+                    icon: Icon(
+                      Icons.add_circle_outline,
+                      color: Colors.amber,
+                      size: 32.0,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        amount += 1;
+                      });
+                    },
+                  ),
+                  Text(
+                    "\t\t${amount}\t\t",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .title,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.remove_circle_outline,
+                        color: Colors.amber, size: 32.0),
+                    onPressed: () {
+                      if (amount > 0)
+                        setState(() {
+                          amount -= 1;
+                        });
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
