@@ -1,8 +1,11 @@
 import 'package:cantina_app/data/meals_data.dart';
+import 'package:cantina_app/widgets/multi_choice_chip.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MealItemScreen extends StatefulWidget {
   static const RouteName = '/meal';
+
   @override
   _MealItemScreenState createState() => _MealItemScreenState();
 }
@@ -55,56 +58,85 @@ class _MealItemScreenState extends State<MealItemScreen> {
   }
 
   Widget build(BuildContext context) {
-    final RouteArgs = ModalRoute
-        .of(context)
-        .settings
-        .arguments as String;
+    final RouteArgs = ModalRoute.of(context).settings.arguments as String;
     final meal_item_id = RouteArgs;
     final selected_meal = MEALS.firstWhere((meal) {
       return (meal.id == meal_item_id);
     });
+    //TODO pasar estos ingredientes selecionados a pedido
+    List<String> selected_ingredients;
 
-    return Container(
-      color: Theme
-          .of(context)
-          .scaffoldBackgroundColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          ImageNull(selected_meal.image_path, context),
-          SizedBox(
-            height: 20.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  selected_meal.name,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .display1,
-                ),
-                Expanded(child: SizedBox()),
-              ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            ImageNull(selected_meal.image_path, context),
+            SizedBox(
+              height: 20.0,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: SizedBox()),
-                Text('\$${selected_meal.amount}',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .display2),
-              ],
+            //------------------------------------------------------------------Meal Name
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    selected_meal.name,
+                    style: Theme.of(context).textTheme.display1,
+                  ),
+                  Expanded(child: SizedBox()),
+                ],
+              ),
             ),
-          ),
-        ],
+            //------------------------------------------------------------------Meal Description
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                selected_meal.description,
+                style: Theme.of(context).textTheme.display4,
+              ),
+            ),
+            //------------------------------------------------------------------Meal Price
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(child: SizedBox()),
+                  Text('\$${selected_meal.amount}',
+                      style: Theme.of(context).textTheme.display2),
+                ],
+              ),
+            ),
+            //------------------------------------------------------------------Meal Ingredients
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text("Ingredientes:",
+                      style: Theme.of(context).textTheme.display3),
+                  Text("(pulsa para remover ingredientes)",
+                      style: Theme.of(context).textTheme.subtitle),
+                ],
+              ),
+            ),
+            if (selected_meal.ingredients != null)
+              MultiSelectChip(
+                selected_meal.ingredients,
+                onSelectionChanged: (selectedList) {
+                  setState(() {
+                    selected_ingredients = selectedList;
+                    print(selected_ingredients);
+                  });
+                },
+              ),
+          ],
+        ),
       ),
     );
   }
 }
+
+
+

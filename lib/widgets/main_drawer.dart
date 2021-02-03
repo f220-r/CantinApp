@@ -54,8 +54,7 @@ class MainDrawer extends StatelessWidget {
                     size: 30.0,
                   ),
                   Expanded(child: SizedBox()),
-                  Text("Mis Pedidos",
-                      style: Theme.of(context).textTheme.display3)
+                  Text("Pedidos", style: Theme.of(context).textTheme.display3)
                 ],
               ),
             ),
@@ -89,7 +88,7 @@ class MainDrawer extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Icon(
-                    Icons.notifications_none,
+                    Icons.notifications,
                     size: 30.0,
                   ),
                   Expanded(child: SizedBox()),

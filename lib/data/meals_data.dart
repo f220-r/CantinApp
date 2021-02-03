@@ -12,10 +12,62 @@ ategory(id: '0', title: 'Combos', image_path: "assets/images/categories/combos.p
   Category(id: '10', title:'Ver Todo' ,image_path: null),
 * */
 List<Meal> MEALS = [
-  Meal(name: 'Hamburguesa', id: '0', amount: 12.0, category_id: '0', image_path: null),
-  Meal(name: 'Hamburguesa', id: '1', amount: 12.0, category_id: '0', image_path: 'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg'),
-  Meal(name: 'Ensalada Chica', id: '2', amount: 12.0, category_id: '3', is_vegan: true, is_vegetarian: true, has_choice: true, image_path: 'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg'),
-  Meal(name: 'Something', id: '3', amount: 12.0, category_id: '0', is_gluten_free: true, is_lactose_free: true, is_vegan: true, is_vegetarian: true, image_path: 'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg'),
-  Meal(name: 'Hamburguesa', id: '4', amount: 12.0, category_id: '7', image_path: 'https://www.laespanolaaceites.com/wp-content/uploads/2019/06/pizza-con-chorizo-jamon-y-queso-1080x671.jpg'),
-  Meal(name: 'Tarta de Jamon y Queso', id: '5', amount: 12.0, category_id: '5', image_path: 'https://alicante.com.ar/uploads/recetas/87_receta.jpg'),
+  Meal(
+      name: 'Hamburguesa',
+      id: '0',
+      amount: 12.0,
+      category_id: '0',
+      image_path: null),
+  Meal(
+      name: 'Hamburguesa',
+      id: '1',
+      amount: 12.0,
+      category_id: '0',
+      image_path:
+          'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg'),
+  Meal(
+      name: 'Ensalada Chica',
+      id: '2',
+      amount: 12.0,
+      category_id: '3',
+      is_vegan: true,
+      is_vegetarian: true,
+      has_choice: true,
+      image_path:
+          'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg'),
+  Meal(
+      name: 'Something',
+      id: '3',
+      amount: 12.0,
+      category_id: '0',
+      is_gluten_free: true,
+      is_lactose_free: true,
+      is_vegan: true,
+      is_vegetarian: true,
+      image_path:
+          'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg',
+      description: "Alimento desconocido que tiene esta descripcion y por eso sigo escribiendo mucha para ver como quedara, un misterio sinceramente.",
+      ingredients: [
+        "tomato",
+        "potato",
+        "onion",
+        "mushroom",
+        "pumpkin",
+        "lettuce",
+        "cheese",
+        "TACC"
+      ]),
+  Meal(
+      name: 'Hamburguesa',
+      id: '4',
+      amount: 12.0,
+      category_id: '7',
+      image_path:
+          'https://www.laespanolaaceites.com/wp-content/uploads/2019/06/pizza-con-chorizo-jamon-y-queso-1080x671.jpg'),
+  Meal(
+      name: 'Tarta de Jamon y Queso',
+      id: '5',
+      amount: 12.0,
+      category_id: '5',
+      image_path: 'https://alicante.com.ar/uploads/recetas/87_receta.jpg'),
 ];
