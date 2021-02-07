@@ -68,7 +68,6 @@ class _MealItemScreenState extends State<MealItemScreen> {
 
     //TODO pasar estos ingredientes selecionados a pedido
     List<String> selected_ingredients;
-    double final_cost = amount * selected_meal.amount;
     return Scaffold(
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
@@ -106,11 +105,8 @@ class _MealItemScreenState extends State<MealItemScreen> {
               child: Row(
                 children: <Widget>[
                   Expanded(child: SizedBox()),
-                  Text('\$' + final_cost.toString(),
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .display2),
+                  Text('\$' + selected_meal.amount.toString(),
+                      style: Theme.of(context).textTheme.display2),
                 ],
               ),
             ),
@@ -188,6 +184,8 @@ class _MealItemScreenState extends State<MealItemScreen> {
                 ],
               ),
             ),
+            //------------------------------------------------------------------Order info, send order
+
           ],
         ),
       ),

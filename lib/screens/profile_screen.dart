@@ -1,5 +1,7 @@
+import 'package:cantina_app/providers/products.dart';
 import 'package:cantina_app/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const RouteName = '/my-profile';
@@ -27,8 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
-  Widget _buildSwitchListTile(
-      String title, String description, bool currVal, Function updateVal) {
+  Widget _buildSwitchListTile(String title, String description, bool currVal, Function updateVal) {
     return SwitchListTile(
       value: currVal,
       onChanged: updateVal,
@@ -73,6 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _gluten_free, (nV) {
                   setState(() {
                     _gluten_free = nV;
+                    Provider.of<Products>(context).setFilter("gluten", nV);
                   });
                 }),
                 _buildSwitchListTile(
@@ -81,6 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _lactose_free, (nV) {
                   setState(() {
                     _lactose_free = nV;
+                    Provider.of<Products>(context).setFilter("lactose", nV);
                   });
                 }),
                 _buildSwitchListTile(
@@ -89,6 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _vegetarian, (nV) {
                   setState(() {
                     _vegetarian = nV;
+                    Provider.of<Products>(context).setFilter("vegetarian", nV);
                   });
                 }),
                 _buildSwitchListTile(
@@ -97,6 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _vegan, (nV) {
                   setState(() {
                     _vegan = nV;
+                    Provider.of<Products>(context).setFilter("gluten", nV);
                   });
                 }),
                 FlatButton(
