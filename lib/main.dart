@@ -52,6 +52,7 @@ class _CantinAppState extends State<CantinApp> {
         theme: ThemeData(
           primarySwatch: Colors.amber,
           primaryColor: Colors.amber,
+          //cardColor: Colors.amber.shade100,
           secondaryHeaderColor: Colors.indigo,
           fontFamily: 'Roboto',
           appBarTheme:

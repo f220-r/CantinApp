@@ -74,7 +74,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _gluten_free, (nV) {
                   setState(() {
                     _gluten_free = nV;
-                    Provider.of<Products>(context).setFilter("gluten", nV);
                   });
                 }),
                 _buildSwitchListTile(
@@ -83,7 +82,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _lactose_free, (nV) {
                   setState(() {
                     _lactose_free = nV;
-                    Provider.of<Products>(context).setFilter("lactose", nV);
                   });
                 }),
                 _buildSwitchListTile(
@@ -92,7 +90,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _vegetarian, (nV) {
                   setState(() {
                     _vegetarian = nV;
-                    Provider.of<Products>(context).setFilter("vegetarian", nV);
                   });
                 }),
                 _buildSwitchListTile(
@@ -101,7 +98,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _vegan, (nV) {
                   setState(() {
                     _vegan = nV;
-                    Provider.of<Products>(context).setFilter("gluten", nV);
                   });
                 }),
                 FlatButton(
@@ -112,7 +108,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'vegetarian': _vegetarian,
                         'vegan': _vegan,
                       };
-                      widget._saveFilters(selectedFilters);
+
+                      Provider.of<Products>(context, listen: false)
+                          .setFilter("gluten", _gluten_free);
+                      Provider.of<Products>(context, listen: false)
+                          .setFilter("lactose", _lactose_free);
+                      Provider.of<Products>(context, listen: false)
+                          .setFilter("vegan", _vegan);
+                      Provider.of<Products>(context, listen: false)
+                          .setFilter("vegetarian", _vegetarian);
+                      widget._saveFilters(selectedFilters, listen: false);
                     },
                     child: Align(
                         alignment: Alignment.centerRight,

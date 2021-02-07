@@ -61,6 +61,13 @@ class Products with ChangeNotifier {
         amount: 12.0,
         category_id: '5',
         image_path: 'https://alicante.com.ar/uploads/recetas/87_receta.jpg'),
+    Meal(
+        name: 'Menu del Día',
+        description: "Tarda de calabaza con sesos de gusano",
+        id: '6',
+        amount: 12.0,
+        category_id: '0',
+        image_path: 'https://alicante.com.ar/uploads/recetas/87_receta.jpg'),
   ];
   Map<String, bool> _filters = {
     'gluten': false,
@@ -84,12 +91,20 @@ class Products with ChangeNotifier {
     return _availableMeals;
   }
 
-  void addProduct() {
-    //_items.add(value);
-    notifyListeners();
+  Meal fingyId(String id) {
+    return _items.firstWhere((meal) {
+      return (meal.id == id);
+    });
   }
 
   Map<String, bool> get filters {
     return _filters;
   }
+
+  void addProduct() {
+    //_items.add(value);
+    notifyListeners();
+  }
+
+
 }

@@ -1,7 +1,9 @@
 import 'package:cantina_app/data/meals_data.dart';
+import 'package:cantina_app/providers/products.dart';
 import 'package:cantina_app/widgets/multi_choice_chip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MealItemScreen extends StatefulWidget {
   static const RouteName = '/meal';
@@ -61,10 +63,8 @@ class _MealItemScreenState extends State<MealItemScreen> {
 
   Widget build(BuildContext context) {
     final RouteArgs = ModalRoute.of(context).settings.arguments as String;
-    final meal_item_id = RouteArgs;
-    final selected_meal = MEALS.firstWhere((meal) {
-      return (meal.id == meal_item_id);
-    });
+    final selected_meal =
+        Provider.of<Products>(context, listen: false).fingyId(RouteArgs);
 
     //TODO pasar estos ingredientes selecionados a pedido
     List<String> selected_ingredients;
