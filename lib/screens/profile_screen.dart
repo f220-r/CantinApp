@@ -5,10 +5,6 @@ import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const RouteName = '/my-profile';
-  final Function _saveFilters;
-  final Map<String, bool> _currFilters;
-
-  ProfileScreen(this._currFilters, this._saveFilters);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -20,16 +16,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _vegan = false;
   bool _vegetarian = false;
 
+  bool init = false;
+
   @override
-  initState() {
-    _gluten_free = widget._currFilters['gluten'];
-    _lactose_free = widget._currFilters['lactose'];
-    _vegan = widget._currFilters['vegan'];
-    _vegetarian = widget._currFilters['vegetarian'];
-    super.initState();
+  void initialize(Products product) {
+    _gluten_free = product.filters['gluten'];
+    _lactose_free = product.filters['lactose'];
+    _vegan = product.filters['vegan'];
+    _vegetarian = product.filters['vegetarian'];
   }
 
-  Widget _buildSwitchListTile(String title, String description, bool currVal, Function updateVal) {
+  Widget _buildSwitchListTile(
+      String title, String description, bool currVal, Function updateVal) {
     return SwitchListTile(
       value: currVal,
       onChanged: updateVal,
@@ -39,6 +37,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget build(BuildContext context) {
+    Products product = Provider.of<Products>(context);
+    if (!init) {
+      init = true;
+      initialize(product);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Mi Perfil"),
@@ -102,22 +105,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 }),
                 FlatButton(
                     onPressed: () {
-                      final selectedFilters = {
-                        'gluten': _gluten_free,
-                        'lactose': _lactose_free,
-                        'vegetarian': _vegetarian,
-                        'vegan': _vegan,
-                      };
-
-                      Provider.of<Products>(context, listen: false)
-                          .setFilter("gluten", _gluten_free);
-                      Provider.of<Products>(context, listen: false)
-                          .setFilter("lactose", _lactose_free);
-                      Provider.of<Products>(context, listen: false)
-                          .setFilter("vegan", _vegan);
-                      Provider.of<Products>(context, listen: false)
-                          .setFilter("vegetarian", _vegetarian);
-                      widget._saveFilters(selectedFilters, listen: false);
+                      product.setFilter("vegan", _vegan);
+                      product.setFilter("vegetarian", _vegetarian);
+                      product.setFilter("gluten", _gluten_free);
+                      product.setFilter("lactose", _lactose_free);
                     },
                     child: Align(
                         alignment: Alignment.centerRight,
