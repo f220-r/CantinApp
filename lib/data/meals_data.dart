@@ -32,7 +32,6 @@ List<Meal> MEALS = [
       category_id: '3',
       is_vegan: true,
       is_vegetarian: true,
-      has_choice: true,
       image_path:
           'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg'),
   Meal(

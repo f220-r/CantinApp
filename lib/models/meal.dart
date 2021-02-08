@@ -13,7 +13,11 @@ class Meal{
   final bool is_vegetarian;
   final bool is_vegan;
 
-  final bool has_choice;
+  final bool is_sidedish;
+
+  //-1 is none, else it means the category from wich it draws choice
+  final List<Meal> has_choice;
+  final int choices_amount;
 
   Meal({
     @required this.name,
@@ -27,6 +31,8 @@ class Meal{
     this.is_lactose_free = false,
     this.is_vegan = false,
     this.is_vegetarian = false,
-    this.has_choice = false,
+    this.is_sidedish = false,
+    this.has_choice = null,
+    this.choices_amount = 0,
   });
 }

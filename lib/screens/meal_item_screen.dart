@@ -1,19 +1,25 @@
 import 'package:cantina_app/data/meals_data.dart';
 import 'package:cantina_app/providers/products.dart';
+import 'package:cantina_app/widgets/beverage.dart';
+import 'package:cantina_app/widgets/desserts.dart';
+import 'package:cantina_app/widgets/has_choice.dart';
 import 'package:cantina_app/widgets/multi_choice_chip.dart';
+import 'package:cantina_app/widgets/order_quantity.dart';
+import 'package:cantina_app/widgets/side_dish.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MealItemScreen extends StatefulWidget {
   static const RouteName = '/meal';
+  int _auxie = 0;
 
   @override
   _MealItemScreenState createState() => _MealItemScreenState();
 }
 
 class _MealItemScreenState extends State<MealItemScreen> {
-  int amount = 1;
+  int _value;
 
   @override
   Widget CloseButton(BuildContext ctx) {
@@ -65,7 +71,14 @@ class _MealItemScreenState extends State<MealItemScreen> {
     final RouteArgs = ModalRoute.of(context).settings.arguments as String;
     final selected_meal =
         Provider.of<Products>(context, listen: false).findId(RouteArgs);
-
+    var order = {
+      "items": [
+        selected_meal,
+      ],
+      "remove_ingredients": [],
+      "cost": selected_meal.amount,
+      "qtty": 1,
+    };
     //TODO pasar estos ingredientes selecionados a pedido
     List<String> selected_ingredients;
     return Scaffold(
@@ -136,53 +149,38 @@ class _MealItemScreenState extends State<MealItemScreen> {
                 onSelectionChanged: (selectedList) {
                   setState(() {
                     selected_ingredients = selectedList;
+                    order["remove_ingredients"] =
+                        selected_meal.ingredients.where((x) {
+                          return !(selected_ingredients.contains(x));
+                        }).toList();
                   });
                 },
               ),
+            if(selected_meal.has_choice != null)
+              HasChoice(selected_meal.choices_amount, selected_meal.has_choice),
             //------------------------------------------------------------------Order Quantity
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Unidades:",
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                  Expanded(
-                    child: SizedBox(),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.add_circle_outline,
-                      color: Colors.amber,
-                      size: 32.0,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        amount += 1;
-                      });
-                    },
-                  ),
-                  Text(
-                    "\t\t${amount}\t\t",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .title,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.remove_circle_outline,
-                        color: Colors.amber, size: 32.0),
-                    onPressed: () {
-                      if (amount > 0)
-                        setState(() {
-                          amount -= 1;
-                        });
-                    },
-                  ),
-                ],
-              ),
+              child: OrderQuantity((val) {
+                order['qtty'] = val;
+              }),
+            ),
+
+            Divider(thickness: 3.0, indent: 20.0, endIndent: 20.0,),
+            //------------------------------------------------------------------Side Dish
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: SideDish(),
+            ),
+            //------------------------------------------------------------------Beverage
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Beverage(),
+            ),
+            //------------------------------------------------------------------Dessert
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Dessert(),
             ),
             //------------------------------------------------------------------Order info, send order
 
