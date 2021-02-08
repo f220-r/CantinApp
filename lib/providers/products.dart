@@ -81,6 +81,10 @@ class Products with ChangeNotifier {
   }
 
   List<Meal> get items {
+    return [..._items];
+  }
+
+  List<Meal> get filtered_items {
     List<Meal> _availableMeals = _items.where((meal) {
       if (_filters['gluten'] && !meal.is_gluten_free) return false;
       if (_filters['lactose'] && !meal.is_lactose_free) return false;
