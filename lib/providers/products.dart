@@ -78,6 +78,7 @@ class Products with ChangeNotifier {
 
   void setFilter(String x, bool val) {
     _filters[x] = val;
+    notifyListeners();
   }
 
   List<Meal> get items {
@@ -95,7 +96,7 @@ class Products with ChangeNotifier {
     return _availableMeals;
   }
 
-  Meal fingyId(String id) {
+  Meal findId(String id) {
     return _items.firstWhere((meal) {
       return (meal.id == id);
     });

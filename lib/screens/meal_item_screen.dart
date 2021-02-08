@@ -64,7 +64,7 @@ class _MealItemScreenState extends State<MealItemScreen> {
   Widget build(BuildContext context) {
     final RouteArgs = ModalRoute.of(context).settings.arguments as String;
     final selected_meal =
-        Provider.of<Products>(context, listen: false).fingyId(RouteArgs);
+        Provider.of<Products>(context, listen: false).findId(RouteArgs);
 
     //TODO pasar estos ingredientes selecionados a pedido
     List<String> selected_ingredients;
