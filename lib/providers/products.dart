@@ -78,9 +78,14 @@ class Products with ChangeNotifier {
 
   void setFilter(String x, bool val) {
     _filters[x] = val;
+    notifyListeners();
   }
 
   List<Meal> get items {
+    return [..._items];
+  }
+
+  List<Meal> get filtered_items {
     List<Meal> _availableMeals = _items.where((meal) {
       if (_filters['gluten'] && !meal.is_gluten_free) return false;
       if (_filters['lactose'] && !meal.is_lactose_free) return false;
@@ -91,7 +96,7 @@ class Products with ChangeNotifier {
     return _availableMeals;
   }
 
-  Meal fingyId(String id) {
+  Meal findId(String id) {
     return _items.firstWhere((meal) {
       return (meal.id == id);
     });
