@@ -21,9 +21,9 @@ class Products with ChangeNotifier {
         id: '2',
         amount: 12.0,
         category_id: '3',
+        ingredients: ['tomate', 'lechuga', 'huevo', 'queso', 'jamon'],
         is_vegan: true,
         is_vegetarian: true,
-        has_choice: true,
         image_path:
             'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg'),
     Meal(
@@ -36,8 +36,19 @@ class Products with ChangeNotifier {
         is_vegan: true,
         is_vegetarian: true,
         image_path:
-            'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg',
+        'https://gastronomiaycia.republica.com/wp-content/uploads/2020/02/whopper_sin-aditivos.jpg',
         description: "Alimento desconocido que tiene esta descripcion y por eso sigo escribiendo mucha para ver como quedara, un misterio sinceramente.",
+        has_choice: [
+          Meal(name: 'Empanada de carne',
+              id: '12',
+              amount: 12.0,
+              category_id: '7'),
+          Meal(name: 'Empanada de pollo',
+              id: '12',
+              amount: 12.0,
+              category_id: '7')
+        ],
+        choices_amount: 3,
         ingredients: [
           "tomato",
           "potato",
@@ -68,6 +79,23 @@ class Products with ChangeNotifier {
         amount: 12.0,
         category_id: '0',
         image_path: 'https://alicante.com.ar/uploads/recetas/87_receta.jpg'),
+    Meal(
+      name: 'Papas Fritas',
+      description: "Bandeja con papas",
+      id: '7',
+      amount: 20.0,
+      category_id: '11',
+      is_sidedish: true,
+      is_vegetarian: true,
+      is_gluten_free: true,
+    ),
+    Meal(
+      name: 'Agua',
+      description: 'Botela de agua de 500ml',
+      id: '8',
+      amount: 13.0,
+      category_id: '8',
+    ),
   ];
   Map<String, bool> _filters = {
     'gluten': false,
