@@ -1,4 +1,3 @@
-import 'package:cantina_app/data/meals_data.dart';
 import 'package:cantina_app/providers/products.dart';
 import 'package:cantina_app/widgets/beverage.dart';
 import 'package:cantina_app/widgets/desserts.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 
 class MealItemScreen extends StatefulWidget {
   static const RouteName = '/meal';
-  int _auxie = 0;
 
   @override
   _MealItemScreenState createState() => _MealItemScreenState();
@@ -78,6 +76,8 @@ class _MealItemScreenState extends State<MealItemScreen> {
       "remove_ingredients": [],
       "cost": selected_meal.amount,
       "qtty": 1,
+      "has_choices": false,
+      "choice": "",
     };
     //TODO pasar estos ingredientes selecionados a pedido
     List<String> selected_ingredients;
@@ -151,13 +151,20 @@ class _MealItemScreenState extends State<MealItemScreen> {
                     selected_ingredients = selectedList;
                     order["remove_ingredients"] =
                         selected_meal.ingredients.where((x) {
-                          return !(selected_ingredients.contains(x));
-                        }).toList();
+                      return !(selected_ingredients.contains(x));
+                    }).toList();
                   });
                 },
               ),
-            if(selected_meal.has_choice != null)
-              HasChoice(selected_meal.choices_amount, selected_meal.has_choice),
+            if (selected_meal.has_choice != null)
+              HasChoice(selected_meal.choices_amount, selected_meal.has_choice,
+                  (val) {
+                setState(() {
+                  order["has_choices"] = true;
+                  order["choice"] = val;
+                  print(order["choice"]);
+                });
+              }),
             //------------------------------------------------------------------Order Quantity
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -166,7 +173,11 @@ class _MealItemScreenState extends State<MealItemScreen> {
               }),
             ),
 
-            Divider(thickness: 3.0, indent: 20.0, endIndent: 20.0,),
+            Divider(
+              thickness: 3.0,
+              indent: 20.0,
+              endIndent: 20.0,
+            ),
             //------------------------------------------------------------------Side Dish
             Padding(
               padding: EdgeInsets.all(8.0),
@@ -183,7 +194,6 @@ class _MealItemScreenState extends State<MealItemScreen> {
               child: Dessert(),
             ),
             //------------------------------------------------------------------Order info, send order
-
           ],
         ),
       ),

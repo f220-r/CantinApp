@@ -26,7 +26,7 @@ class _SubHasChoiceState extends State<SubHasChoice> {
             setState(() {
               amount += 1;
             });
-            widget.has_changed(1);
+            widget.has_changed(1, amount);
           },
         ),
         Text(
@@ -39,7 +39,7 @@ class _SubHasChoiceState extends State<SubHasChoice> {
               setState(() {
                 amount -= 1;
               });
-              widget.has_changed(-1);
+              widget.has_changed(-1, amount);
             }
           },
         ),
