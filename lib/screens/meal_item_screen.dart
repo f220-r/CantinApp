@@ -1,5 +1,7 @@
 import 'package:cantina_app/models/meal.dart';
+import 'package:cantina_app/providers/cart.dart';
 import 'package:cantina_app/providers/products.dart';
+import 'package:cantina_app/widgets/confirm_order.dart';
 import 'package:cantina_app/widgets/has_choice.dart';
 import 'package:cantina_app/widgets/multi_choice_chip.dart';
 import 'package:cantina_app/widgets/order_quantity.dart';
@@ -23,7 +25,7 @@ class _MealItemScreenState extends State<MealItemScreen> {
 
   int qtty = 1;
   List<String> remove_ingredients = [];
-  String choices = "";
+  String choices = "//Opcion no elegida";
 
   @override
   Widget CloseButton(BuildContext ctx) {
@@ -71,25 +73,38 @@ class _MealItemScreenState extends State<MealItemScreen> {
       );
   }
 
+  String loadDataToString(List<Meal> aux, double fc) {
+    if (side_d != null) aux.add(side_d);
+    if (dessert != null) if (dessert != null) aux.add(dessert);
+    if (bev != null) aux.add(bev);
+    String order_s = "";
+    for (int i = 0; i < aux.length; i++) {
+      order_s += qtty.toString() +
+          "x " +
+          aux[i].name +
+          " __" +
+          " \$" +
+          aux[i].amount.toString() +
+          "\n";
+      if (aux[i].has_choice != null) order_s += choices;
+      order_s += '\n';
+    }
+    if (remove_ingredients.length != 0)
+      order_s += "- Sin " + remove_ingredients.toString() + '\n';
+    return order_s;
+  }
+
   Widget build(BuildContext context) {
-    final RouteArgs = ModalRoute
-        .of(context)
-        .settings
-        .arguments as String;
+    final RouteArgs = ModalRoute.of(context).settings.arguments as String;
     final selected_meal =
-    Provider.of<Products>(context, listen: false).findId(RouteArgs);
+        Provider.of<Products>(context, listen: false).findId(RouteArgs);
+    final cart = Provider.of<Cart>(context, listen: false);
     double final_cost = (selected_meal.amount +
-        ((bev != null) ? bev.amount : 0.0) +
-        ((dessert != null) ? dessert.amount : 0.0) +
-        ((side_d != null) ? side_d.amount : 0.0)) * qtty;
-    var order = {
-      "items": [selected_meal,],
-      "remove_ingredients": remove_ingredients,
-      "cost": final_cost,
-      "qtty": qtty,
-      "has_choices": (selected_meal.has_choice != null),
-      "choice": choices,
-    };
+            ((bev != null) ? bev.amount : 0.0) +
+            ((dessert != null) ? dessert.amount : 0.0) +
+            ((side_d != null) ? side_d.amount : 0.0)) *
+        qtty;
+
     //TODO pasar estos ingredientes selecionados a pedido
     List<String> selected_ingredients;
     return Scaffold(
@@ -248,15 +263,16 @@ class _MealItemScreenState extends State<MealItemScreen> {
                       textAlign: TextAlign.center),
                   onPressed: () {
                     List<Meal> aux = [selected_meal];
-                    if (side_d != null)
-                      aux.add(side_d);
-                    if (dessert != null)
-                      if (dessert != null)
-                        aux.add(dessert);
-                    if (bev != null)
-                      aux.add(bev);
-                    order["items"] = aux;
-                    print(order);
+                    String order_s = loadDataToString(aux, final_cost);
+                    String k = cart.addItem(
+                        selected_meal.name, selected_meal.id, final_cost, qtty,
+                        order_s);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext ctx) {
+                        return ConfirmOrder(k);
+                      },
+                    );
                   }),
             ),
           ),

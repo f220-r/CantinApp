@@ -15,7 +15,7 @@ class CategoryMealsScreen extends StatelessWidget {
     final products_data = Provider.of<Products>(context);
     final category_title = RouteArgs['title'];
     final category_id = RouteArgs['id'];
-    final category_meals = products_data.items.where((meal) {
+    final category_meals = products_data.filtered_items.where((meal) {
       if (category_id == '10')
         return true;
       else

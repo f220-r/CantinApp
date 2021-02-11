@@ -45,7 +45,11 @@ class RefreshableAlert extends StatefulWidget {
   final List<Meal> choices;
   final Function ret_choice;
 
-  RefreshableAlert(this.opts, this.choices, this.ret_choice);
+  RefreshableAlert(
+    this.opts,
+    this.choices,
+    this.ret_choice,
+  );
 
   @override
   _RefreshableAlertState createState() => _RefreshableAlertState();
@@ -65,22 +69,20 @@ class _RefreshableAlertState extends State<RefreshableAlert> {
   Widget build(BuildContext context) {
     Widget Enabled_Disabled() {
       return FlatButton(
-          onPressed: (amount > widget.opts)
-              ? null
-              : () {
-                  String res = "";
-                  for (int i = 0; i < qties.length; i++)
-                    res += qties[i].toString() +
-                        "x " +
-                        widget.choices[i].name +
-                        '\n';
-                  widget.ret_choice(res);
-                  Navigator.of(context).pop();
-                },
+          onPressed: (amount > widget.opts) ? null : () {
+            String res = "";
+            for (int i = 0; i < qties.length; i++)
+              res += "\t" + qties[i].toString() +
+                  "x " +
+                  widget.choices[i].name +
+                  '\n';
+            widget.ret_choice(res);
+            Navigator.of(context).pop();
+          },
           child: Text(
             "Confirmar",
             style: TextStyle(
-                color: (amount > widget.opts) ? Colors.grey : Colors.amber),
+                color: (amount != widget.opts) ? Colors.grey : Colors.amber),
           ));
     }
 
@@ -90,7 +92,7 @@ class _RefreshableAlertState extends State<RefreshableAlert> {
               Text(
                 "Elija hasta " + "${widget.opts}" + " opciones",
                 style: TextStyle(
-                    color: (amount > widget.opts)
+                    color: (amount != widget.opts)
                         ? Colors.redAccent
                         : Colors.amber),
               ),
@@ -100,7 +102,6 @@ class _RefreshableAlertState extends State<RefreshableAlert> {
                 setState(() {
                   amount = amount + val;
                   qties[widget.choices.indexOf(x)] = vva;
-                  print(qties);
                 });
               });
             }).toList(),
