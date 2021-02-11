@@ -49,10 +49,8 @@ class ConfirmOrder extends StatelessWidget {
             child: Text("Confirmar Pedido")),
         FlatButton(
             onPressed: () {
-              print(order.qtty);
-              cart.removeItem(kk, order.qtty);
-              print(order.qtty);
               Navigator.of(context).pop();
+              cart.removeItem(kk, order.qtty);
             },
             child: Text("Rechazar")),
       ],
