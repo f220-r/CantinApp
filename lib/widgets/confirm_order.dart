@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cantina_app/providers/cart.dart';
 import 'package:cantina_app/screens/orders_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +10,21 @@ class ConfirmOrder extends StatelessWidget {
 
   ConfirmOrder(this.kk);
 
+  var order;
+  bool f = false;
+
+  @override
+  initialize(Cart c) {
+    order = c.items[kk];
+    f = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     var cart = Provider.of<Cart>(context);
-    var order = Provider.of<Cart>(context).items[kk];
+    if (!f) {
+      initialize(cart);
+    }
     return AlertDialog(
       title: Text("Pedido #${order.id}"),
       titleTextStyle: Theme.of(context).textTheme.title,
@@ -30,8 +43,8 @@ class ConfirmOrder extends StatelessWidget {
               style: Theme.of(context).textTheme.display3),
           Expanded(
               child: SizedBox(
-            height: double.infinity,
-          )),
+                height: double.infinity,
+              )),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -49,8 +62,8 @@ class ConfirmOrder extends StatelessWidget {
             child: Text("Confirmar Pedido")),
         FlatButton(
             onPressed: () {
-              Navigator.of(context).pop();
               cart.removeItem(kk, order.qtty);
+              Navigator.of(context).pop();
             },
             child: Text("Rechazar")),
       ],

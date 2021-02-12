@@ -1,4 +1,5 @@
 import 'package:cantina_app/providers/cart.dart';
+import 'package:cantina_app/providers/order_h.dart';
 import 'package:cantina_app/screens/categories_meals_screen.dart';
 import 'package:cantina_app/screens/categories_screen.dart';
 import 'package:cantina_app/screens/meal_item_screen.dart';
@@ -19,7 +20,6 @@ class CantinApp extends StatefulWidget {
 }
 
 class _CantinAppState extends State<CantinApp> {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -28,6 +28,7 @@ class _CantinAppState extends State<CantinApp> {
           value: Products(),
         ),
         ChangeNotifierProvider.value(value: Cart()),
+        ChangeNotifierProvider.value(value: OrderHelp()),
       ],
       child: MaterialApp(
         title: 'CantinApp',

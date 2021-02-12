@@ -1,14 +1,9 @@
-import 'package:cantina_app/models/meal.dart';
 import 'package:cantina_app/widgets/sub_has_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:cantina_app/providers/order_h.dart';
 
 class HasChoice extends StatelessWidget {
-  final int opts;
-  final List<Meal> choices;
-  final Function ret_choice;
-
-  HasChoice(this.opts, this.choices, this.ret_choice);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,7 +20,7 @@ class HasChoice extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (BuildContext ctx) {
-                    return RefreshableAlert(opts, choices, ret_choice);
+                    return RefreshableAlert();
                   },
                 );
               },
@@ -41,70 +36,59 @@ class HasChoice extends StatelessWidget {
 }
 
 class RefreshableAlert extends StatefulWidget {
-  final int opts;
-  final List<Meal> choices;
-  final Function ret_choice;
-
-  RefreshableAlert(
-    this.opts,
-    this.choices,
-    this.ret_choice,
-  );
 
   @override
   _RefreshableAlertState createState() => _RefreshableAlertState();
 }
 
 class _RefreshableAlertState extends State<RefreshableAlert> {
+  bool f = false;
   int amount = 0;
-  List<int> qties = [];
-
-  @override
-  void initState() {
-    for (int i = 0; i < widget.choices.length; i++) qties.add(0);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    var order_h = Provider.of<OrderHelp>(context);
+    if (!f) {
+      order_h.set_qtties();
+      amount = order_h.sum_qtties();
+      f = true;
+    }
     Widget Enabled_Disabled() {
       return FlatButton(
-          onPressed: (amount > widget.opts) ? null : () {
+          onPressed: (amount != order_h.opts) ? null : () {
             String res = "";
-            for (int i = 0; i < qties.length; i++)
-              res += "\t" + qties[i].toString() +
+            for (int i = 0; i < order_h.qties.length; i++)
+              res += "\t" + order_h.qties[i].toString() +
                   "x " +
-                  widget.choices[i].name +
+                  order_h.choice[i].name +
                   '\n';
-            widget.ret_choice(res);
+            order_h.choices = res;
             Navigator.of(context).pop();
           },
           child: Text(
             "Confirmar",
             style: TextStyle(
-                color: (amount != widget.opts) ? Colors.grey : Colors.amber),
+                color: (amount != order_h.opts) ? Colors.grey : Colors.amber),
           ));
     }
 
     return AlertDialog(
       content: Column(
         children: <Widget>[
-              Text(
-                "Elija hasta " + "${widget.opts}" + " opciones",
-                style: TextStyle(
-                    color: (amount != widget.opts)
-                        ? Colors.redAccent
-                        : Colors.amber),
-              ),
-            ] +
-            widget.choices.map((x) {
-              return SubHasChoice(x.name, (val, vva) {
-                setState(() {
-                  amount = amount + val;
-                  qties[widget.choices.indexOf(x)] = vva;
-                });
-              });
-            }).toList(),
+          Text(
+            "Elija hasta " + "${order_h.opts}" + " opciones",
+            style: TextStyle(
+                color: (amount != order_h.opts)
+                    ? Colors.redAccent
+                    : Colors.amber),
+          ),
+        ] +
+            order_h.choice.map((x) =>
+                SubHasChoice(order_h.choice.indexOf(x), () {
+                  setState(() {
+                    amount = order_h.sum_qtties();
+                  });
+                })).toList(),
       ),
       actions: <Widget>[Enabled_Disabled()],
     );
