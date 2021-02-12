@@ -1,45 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:cantina_app/providers/order_h.dart';
 
 class SubHasChoice extends StatefulWidget {
-  final String name;
-  final Function has_changed;
+  final int indx;
+  final Function set_change;
 
-  SubHasChoice(this.name, this.has_changed);
+  SubHasChoice(this.indx, this.set_change);
 
   @override
   _SubHasChoiceState createState() => _SubHasChoiceState();
 }
 
 class _SubHasChoiceState extends State<SubHasChoice> {
-  int amount = 0;
-
   @override
   Widget build(BuildContext context) {
+    var order_h = Provider.of<OrderHelp>(context);
     return Row(
       children: <Widget>[
-        Text(widget.name),
+        Text(order_h.selected_meal.name),
         IconButton(
           icon: Icon(
             Icons.add,
           ),
           onPressed: () {
             setState(() {
-              amount += 1;
+              order_h.qties[widget.indx] += 1;
             });
-            widget.has_changed(1, amount);
+            widget.set_change();
           },
         ),
         Text(
-          "\t${amount}\t",
+          "\t${order_h.qties[widget.indx]}\t",
         ),
         IconButton(
           icon: Icon(Icons.remove),
           onPressed: () {
-            if (amount > 0) {
+            if (order_h.qties[widget.indx] > 0) {
               setState(() {
-                amount -= 1;
+                order_h.qties[widget.indx] -= 1;
               });
-              widget.has_changed(-1, amount);
+              widget.set_change();
             }
           },
         ),

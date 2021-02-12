@@ -1,5 +1,6 @@
 import 'package:cantina_app/models/meal.dart';
 import 'package:cantina_app/providers/cart.dart';
+import 'package:cantina_app/providers/order_h.dart';
 import 'package:cantina_app/providers/products.dart';
 import 'package:cantina_app/widgets/confirm_order.dart';
 import 'package:cantina_app/widgets/has_choice.dart';
@@ -19,13 +20,7 @@ class MealItemScreen extends StatefulWidget {
 }
 
 class _MealItemScreenState extends State<MealItemScreen> {
-  Meal side_d = null;
-  Meal bev = null;
-  Meal dessert = null;
-
-  int qtty = 1;
-  List<String> remove_ingredients = [];
-  String choices = "//Opcion no elegida";
+  bool f = false;
 
   @override
   Widget CloseButton(BuildContext ctx) {
@@ -73,37 +68,37 @@ class _MealItemScreenState extends State<MealItemScreen> {
       );
   }
 
-  String loadDataToString(List<Meal> aux, double fc) {
-    if (side_d != null) aux.add(side_d);
-    if (dessert != null) if (dessert != null) aux.add(dessert);
-    if (bev != null) aux.add(bev);
-    String order_s = "";
-    for (int i = 0; i < aux.length; i++) {
-      order_s += qtty.toString() +
-          "x " +
-          aux[i].name +
-          " __" +
-          " \$" +
-          aux[i].amount.toString() +
-          "\n";
-      if (aux[i].has_choice != null) order_s += choices;
-      order_s += '\n';
-    }
-    if (remove_ingredients.length != 0)
-      order_s += "- Sin " + remove_ingredients.toString() + '\n';
-    return order_s;
+  OrderHelp initialize(OrderHelp order_h, Meal selected_meal) {
+    order_h.selected_meal = selected_meal;
+
+    order_h.side_d = null;
+    order_h.bev = null;
+    order_h.dessert = null;
+
+    order_h.remove_ingredients = [];
+    order_h.choices = "//Opcion no elegida";
+    order_h.qtty = 1;
+
+    order_h.opts = selected_meal.choices_amount;
+    order_h.choice = selected_meal.has_choice;
+    order_h.qties = [];
+    order_h.final_cost = selected_meal.amount;
+    return order_h;
   }
 
   Widget build(BuildContext context) {
-    final RouteArgs = ModalRoute.of(context).settings.arguments as String;
+    final RouteArgs = ModalRoute
+        .of(context)
+        .settings
+        .arguments as String;
     final selected_meal =
-        Provider.of<Products>(context, listen: false).findId(RouteArgs);
+    Provider.of<Products>(context, listen: false).findId(RouteArgs);
     final cart = Provider.of<Cart>(context, listen: false);
-    double final_cost = (selected_meal.amount +
-            ((bev != null) ? bev.amount : 0.0) +
-            ((dessert != null) ? dessert.amount : 0.0) +
-            ((side_d != null) ? side_d.amount : 0.0)) *
-        qtty;
+    var order_h = Provider.of<OrderHelp>(context);
+    if (!f) {
+      order_h = initialize(order_h, selected_meal);
+      f = true;
+    }
 
     //TODO pasar estos ingredientes selecionados a pedido
     List<String> selected_ingredients;
@@ -186,7 +181,7 @@ class _MealItemScreenState extends State<MealItemScreen> {
                     onSelectionChanged: (selectedList) {
                       setState(() {
                         selected_ingredients = selectedList;
-                        remove_ingredients =
+                        order_h.remove_ingredients =
                             selected_meal.ingredients.where((x) {
                               return !(selected_ingredients.contains(x));
                             }).toList();
@@ -194,19 +189,14 @@ class _MealItemScreenState extends State<MealItemScreen> {
                     },
                   ),
                 if (selected_meal.has_choice != null)
-                  HasChoice(
-                      selected_meal.choices_amount, selected_meal.has_choice,
-                          (val) {
-                        setState(() {
-                          choices = val;
-                        });
-                      }),
+                  HasChoice(),
                 //------------------------------------------------------------------Order Quantity
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: OrderQuantity((val) {
                     setState(() {
-                      qtty = val;
+                      order_h.qtty = val;
+                      order_h.set_cost();
                     });
                   }),
                 ),
@@ -221,7 +211,8 @@ class _MealItemScreenState extends State<MealItemScreen> {
                   padding: EdgeInsets.all(8.0),
                   child: SideDish((val) {
                     setState(() {
-                      side_d = val;
+                      order_h.side_d = val;
+                      order_h.set_cost();
                     });
                   }),
                 ),
@@ -230,7 +221,8 @@ class _MealItemScreenState extends State<MealItemScreen> {
                   padding: EdgeInsets.all(8.0),
                   child: Beverage((val) {
                     setState(() {
-                      bev = val;
+                      order_h.bev = val;
+                      order_h.set_cost();
                     });
                   }),
                 ),
@@ -239,7 +231,8 @@ class _MealItemScreenState extends State<MealItemScreen> {
                   padding: EdgeInsets.all(8.0),
                   child: Dessert((val) {
                     setState(() {
-                      dessert = val;
+                      order_h.dessert = val;
+                      order_h.set_cost();
                     });
                   }),
                 ),
@@ -259,13 +252,13 @@ class _MealItemScreenState extends State<MealItemScreen> {
                           top: Radius.circular(35))
                   ),
                   color: Colors.amber,
-                  child: Text("Hacer Pedido (\$$final_cost)",
+                  child: Text("Hacer Pedido (\$${order_h.final_cost})",
                       textAlign: TextAlign.center),
                   onPressed: () {
-                    List<Meal> aux = [selected_meal];
-                    String order_s = loadDataToString(aux, final_cost);
+                    String order_s = order_h.order_h_toString();
                     String k = cart.addItem(
-                        selected_meal.name, selected_meal.id, final_cost, qtty,
+                        selected_meal.name, selected_meal.id,
+                        order_h.final_cost, order_h.qtty,
                         order_s);
                     showDialog(
                       context: context,
