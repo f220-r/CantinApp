@@ -1,3 +1,4 @@
+import 'package:cantina_app/providers/cart.dart';
 import 'package:cantina_app/widgets/sub_has_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,14 @@ class HasChoice extends StatelessWidget {
             style: Theme.of(context).textTheme.title,
           ),
           Expanded(child: SizedBox()),
+          Consumer<OrderHelp>(builder: (context, order, child) {
+            return (order.sum_qtties() == order.selected_meal.choices_amount)
+                ? Icon(
+                    Icons.check_circle_outline,
+                    color: Colors.indigo.withAlpha(150),
+                  )
+                : Container();
+          }),
           FlatButton(
               onPressed: () {
                 showDialog(
@@ -63,6 +72,7 @@ class _RefreshableAlertState extends State<RefreshableAlert> {
                   order_h.choice[i].name +
                   '\n';
             order_h.choices = res;
+            order_h.notifyListeners();
             Navigator.of(context).pop();
           },
           child: Text(

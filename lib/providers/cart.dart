@@ -6,6 +6,7 @@ class CartItem {
   final String title;
   final String order_description;
   final double price;
+  final DateTime date = DateTime.now();
   int qtty;
 
   CartItem({
@@ -52,6 +53,11 @@ class Cart with ChangeNotifier {
       _items[id].qtty -= q;
     else
       _items.remove(id);
+    notifyListeners();
+  }
+
+  void clean() {
+    _items = {};
     notifyListeners();
   }
 }

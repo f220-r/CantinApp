@@ -44,6 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text("Mi Perfil"),
       ),
       drawer: MainDrawer(),

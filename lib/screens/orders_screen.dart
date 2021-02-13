@@ -35,11 +35,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
         ),
       );
   }
-
   Widget build(BuildContext context) {
-    var product = Provider.of<Cart>(context).items;
+    var cart = Provider.of<Cart>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text("Pedidos"),
       ),
       drawer: MainDrawer(),
@@ -53,7 +53,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
             alignment: Alignment.bottomRight,
             child: Image.asset('assets/images/yellow_square.png'),
           ),
-          NonEmptyCart(context, product),
+          Consumer<Cart>(
+              builder: (context, cart, child) =>
+                  NonEmptyCart(context, cart.items)),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FlatButton(
+                onPressed: () {
+                  cart.clean();
+                },
+                child: Text(
+                  "Limpiar",
+                  style: TextStyle(color: Colors.indigo),
+                )),
+          ),
         ],
       ),
     );

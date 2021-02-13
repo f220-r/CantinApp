@@ -20,7 +20,6 @@ class OrderMinItem extends StatelessWidget {
           showDialog(
             context: context,
             builder: (BuildContext ctx) {
-              print(x.id + "from showDialog");
               return AlertDialog(
                 title: Text("Pedido #${x.id}"),
                 titleTextStyle: Theme.of(context).textTheme.title,
@@ -37,6 +36,11 @@ class OrderMinItem extends StatelessWidget {
                     ),
                     Text('Costo final: \$${x.price}',
                         style: Theme.of(context).textTheme.display3),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text('Fecha: ${x.date.day}/${x.date.month}/${x.date.year}',
+                        style: Theme.of(context).textTheme.subtitle),
                   ],
                 ),
                 actions: <Widget>[

@@ -25,7 +25,7 @@ class OrderHelp with ChangeNotifier {
     this.bev = null,
     this.dessert = null,
     this.qtty = 1,
-    this.choices = "//Opcion no elegida",
+    this.choices = "!!  Opcion no elegida !!",
     this.opts = 0,
     this.choice = null,
   });
@@ -88,7 +88,10 @@ class OrderHelp with ChangeNotifier {
           bev.amount.toString() +
           "\n\n";
     if (remove_ingredients.length != 0)
-      order_s += "- Sin " + remove_ingredients.toString() + '\n';
+      order_s += "- Sin: " +
+          remove_ingredients
+              .reduce((value, element) => value + ', ' + element) +
+          '\n';
     return order_s;
   }
 }

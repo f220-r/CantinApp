@@ -8,7 +8,8 @@ class NotificationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("data"),
+        centerTitle: true,
+        title: Text("Notificaciones"),
       ),
       drawer: MainDrawer(),
       body: Container(),

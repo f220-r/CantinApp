@@ -93,7 +93,6 @@ class _MealItemScreenState extends State<MealItemScreen> {
         .arguments as String;
     final selected_meal =
     Provider.of<Products>(context, listen: false).findId(RouteArgs);
-    final cart = Provider.of<Cart>(context, listen: false);
     var order_h = Provider.of<OrderHelp>(context);
     if (!f) {
       order_h = initialize(order_h, selected_meal);
@@ -255,15 +254,10 @@ class _MealItemScreenState extends State<MealItemScreen> {
                   child: Text("Hacer Pedido (\$${order_h.final_cost})",
                       textAlign: TextAlign.center),
                   onPressed: () {
-                    String order_s = order_h.order_h_toString();
-                    String k = cart.addItem(
-                        selected_meal.name, selected_meal.id,
-                        order_h.final_cost, order_h.qtty,
-                        order_s);
                     showDialog(
                       context: context,
                       builder: (BuildContext ctx) {
-                        return ConfirmOrder(k);
+                        return ConfirmOrder(selected_meal.id); //k
                       },
                     );
                   }),

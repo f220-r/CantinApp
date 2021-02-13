@@ -27,8 +27,8 @@ class _CantinAppState extends State<CantinApp> {
         ChangeNotifierProvider.value(
           value: Products(),
         ),
-        ChangeNotifierProvider.value(value: Cart()),
-        ChangeNotifierProvider.value(value: OrderHelp()),
+        ChangeNotifierProvider(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (_) => OrderHelp()),
       ],
       child: MaterialApp(
         title: 'CantinApp',
